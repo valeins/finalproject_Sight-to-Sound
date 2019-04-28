@@ -17,12 +17,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -38,8 +49,13 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean canWriteToPublicStorage = false;
 
+    private RequestQueue requestQueue;
+
+    private static List<String> resultText = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestQueue = Volley.newRequestQueue(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -58,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         });
         /* Confirm button */
         findViewById(R.id.main_confirm).setOnClickListener(v -> {
+            startProcessImage();
             Intent setupIntent = new Intent(this, TextActivity.class);
             startActivity(setupIntent);
             finish();
@@ -138,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(takePictureIntent, IMAGE_CAPTURE_REQUEST_CODE);
     }
     File getSaveFilename() {
-        String imageFileName = "MP3_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
+        String imageFileName = "text-to-txt_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
                 .format(new Date());
         File storageDir;
         if (canWriteToPublicStorage) {
@@ -245,5 +262,91 @@ public class MainActivity extends AppCompatActivity {
             TextView descriptionView = findViewById(R.id.descriptionView);
             descriptionView.setVisibility(View.GONE);
         }*/
+    }
+    private void startProcessImage() {
+        if (currentBitmap == null) {
+            Toast.makeText(getApplicationContext(), "No image selected",
+                    Toast.LENGTH_LONG).show();
+            Log.w(TAG, "No image selected");
+            return;
+        }
+
+        /*
+         * Launch our background task which actually makes the request. It will call
+         * finishProcessImage below with the JSON string when it finishes.
+         */
+        new ProcessImageTask.ProcessImage(MainActivity.this, requestQueue)
+                .execute(currentBitmap);
+    }
+
+    protected void finishProcessImage(final String jsonResult) {
+
+        JsonParser parser = new JsonParser();
+        JsonObject result = parser.parse(jsonResult).getAsJsonObject();
+        Log.d(TAG, "finishProcessing");
+        JsonArray lines = result.get("recognitionResult").getAsJsonArray();
+        for (int i = 0; i < lines.size(); i++) {
+            String line = lines.get(i).getAsJsonObject().get("text").getAsString();
+            resultText.add(line);
+        }
+        Log.d(TAG, "finished processing");
+
+
+        /*
+         * Pretty-print the JSON into the bottom text-view to help with debugging.
+         */
+     /*   TextView textView = findViewById(R.id.jsonResult);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        JsonParser jsonParser = new JsonParser();
+        JsonElement jsonElement = jsonParser.parse(jsonResult);
+        String prettyJsonString = gson.toJson(jsonElement);
+        textView.setText(prettyJsonString); */
+
+
+        /*
+         * Create a string describing the image type, width and height.
+         */
+     /* int width = RecognizePhoto.getWidth(jsonResult);
+        int height = RecognizePhoto.getHeight(jsonResult);
+        String format = RecognizePhoto.getFormat(jsonResult);
+        assert format != null;
+        format = format.toUpperCase();
+        String description = String.format(Locale.US, "%s (%d x %d)", format, width, height);
+*/
+        /*
+         * Update the UI to display the string.
+         */
+    /*    TextView formatView = findViewById(R.id.descriptionView);
+        formatView.setText(description);
+        formatView.setVisibility(View.VISIBLE); */
+
+        /*
+         * Add code here to show the caption, show or hide the dog and cat icons,
+         * and deal with Rick.
+         */
+      /*  textView.setText(RecognizePhoto.getCaption(prettyJsonString));
+
+        if (RecognizePhoto.isACat(jsonResult, RECOGNITION_THRESHOLD)) {
+            ImageView imageCat = findViewById(R.id.xyz);
+            imageCat.setVisibility(View.VISIBLE);
+        }  else {
+            ImageView imageCat = findViewById(R.id.xyz);
+            imageCat.setVisibility(View.GONE);
+        }
+        if (RecognizePhoto.isADog(jsonResult, RECOGNITION_THRESHOLD)) {
+            ImageView imageDog = findViewById(R.id.chuchu);
+            imageDog.setVisibility(View.VISIBLE);
+        } else {
+            ImageView imageDog = findViewById(R.id.chuchu);
+            imageDog.setVisibility(View.GONE);
+        }
+        if (RecognizePhoto.isRick(jsonResult)) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=epyRUp0BhrA"));
+            startActivity(intent);
+        } */
+
+    }
+    public static List<String> getResultText() {
+        return resultText;
     }
 }
