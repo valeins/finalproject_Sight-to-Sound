@@ -17,7 +17,8 @@ public class TextActivity extends AppCompatActivity {
         setContentView(R.layout.activity_text);
 
         TextView textToConvert = findViewById(R.id.text_text);
-        textToConvert.setText("Hello Word");
+        System.out.println(MainActivity.getResultText());
+       // textToConvert.setText(MainActivity.getResultText().get(0));
 
         /* Convert button */
         //findViewById(R.id.text_convert).setOnClickListener();

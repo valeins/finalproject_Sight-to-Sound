@@ -1,31 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_blue_light">
 
     <TextView
         android:id="@+id/end_text"
-        android:layout_width="295dp"
-        android:layout_height="84dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="Your PDF has been created! Press the button below to save it. You can also go back to make changes to the text or to take another picture."
-        tools:layout_editor_absoluteX="49dp"
-        tools:layout_editor_absoluteY="16dp" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        app:fontFamily="@font/acme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/end_save"
         android:layout_width="108dp"
         android:layout_height="121dp"
-        android:layout_marginTop="69dp"
+        android:layout_marginTop="300dp"
         android:layout_marginBottom="453dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/end_text"
-        app:layout_constraintVertical_bias="0.506"
         app:srcCompat="@android:drawable/ic_menu_save" />
 
     <TextView
@@ -49,8 +53,6 @@
         android:id="@+id/end_restart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="73dp"
-        android:layout_marginLeft="73dp"
         android:layout_marginTop="276dp"
         android:layout_marginEnd="50dp"
         android:layout_marginRight="50dp"
@@ -58,7 +60,6 @@
         android:text="Restart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/end_back"
         app:layout_constraintTop_toBottomOf="@+id/end_text"
         app:layout_constraintVertical_bias="0.0" />
 

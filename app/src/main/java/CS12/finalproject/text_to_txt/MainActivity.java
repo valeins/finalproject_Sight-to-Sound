@@ -41,7 +41,7 @@ import org.apache.commons.io.IOUtils;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final static String TAG = "texttotxt:Main";
+    private final static String TAG = "ttt:Main";
 
     private static final int READ_REQUEST_CODE = 42;
 
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Configure and launch the intent
         Uri photoURI = FileProvider.getUriForFile(this,
-                "edu.illinois.cs.cs125.spring2019.mp3.fileprovider", currentPhotoFile);
+                "edu.illinois.cs.cs125.spring2019.finalproject.fileprovider", currentPhotoFile);
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
         photoRequestActive = true;
         startActivityForResult(takePictureIntent, IMAGE_CAPTURE_REQUEST_CODE);
@@ -182,10 +182,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadPhoto(final Uri currentPhotoURI) {
        // enableOrDisableButtons(false);
-      /*  final ImageButton rotateLeft = findViewById(R.id.rotateLeft);
+        /* final ImageButton rotateLeft = findViewById(R.id.rotateLeft);
         rotateLeft.setClickable(false);
-        rotateLeft.setEnabled(false);
-*/
+        rotateLeft.setEnabled(false);*/
+
         if (currentPhotoURI == null) {
             Toast.makeText(getApplicationContext(), "No image selected",
                     Toast.LENGTH_LONG).show();
@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void finishProcessImage(final String jsonResult) {
-
+        System.out.println("Result: " + jsonResult);
         JsonParser parser = new JsonParser();
         JsonObject result = parser.parse(jsonResult).getAsJsonObject();
         Log.d(TAG, "finishProcessing");

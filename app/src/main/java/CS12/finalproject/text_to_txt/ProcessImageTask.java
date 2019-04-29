@@ -28,21 +28,14 @@ import com.android.volley.toolbox.StringRequest;
 class ProcessImageTask {
     public static class ProcessImage extends AsyncTask<Bitmap, Integer, Integer> {
 
-        private static final String TAG = "texttotxt:ProcessImageTask";
+        private static final String TAG = "ttt:ProcessImageTask";
 
         /** Url for the MS cognitive services API. */
         private static final String MS_CV_API_URL =
                 "https://westcentralus.api.cognitive.microsoft.com/vision/v2.0/recognizeText";
 
         /** Default visual features to request. You may need to change this value. */
-        private static final String MS_CV_API_DEFAULT_VISUAL_FEATURES =
-                "Categories,Tags,Description,Faces,ImageType,Color,Adult,Metadata"; //added 'tags' and 'metadata'
-
-        /** Default visual features to request. */
-        private static final String MS_CV_API_DEFAULT_LANGUAGE = "en";
-
-        /** Default visual features to request. You may need to change this value. */
-        private static final String MS_CV_API_DEFAULT_DETAILS = "Celebrities"; //changed 'landmarks' to 'celebritites'
+        private static final String MS_CV_API_DEFAULT_VISUAL_FEATURES = "Handwritten"; // to be changed to "handwritten"!!!
 
         /** Subscription key. */
         private static final String SUBSCRIPTION_KEY = BuildConfig.API_KEY;
@@ -95,18 +88,14 @@ class ProcessImageTask {
              * Convert the image from a Bitmap to a byte array for upload.
              */
             final ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            Bitmap test = currentBitmap[0];
-           /* test.compress(Bitmap.CompressFormat.PNG,
-                    DEFAULT_COMPRESSION_QUALITY_LEVEL, stream);*/
+            currentBitmap[0].compress(Bitmap.CompressFormat.PNG,
+                    DEFAULT_COMPRESSION_QUALITY_LEVEL, stream);
             // Prepare our API request
             String requestURL = Uri.parse(MS_CV_API_URL)
                     .buildUpon()
-                    .appendQueryParameter("visualFeatures", MS_CV_API_DEFAULT_VISUAL_FEATURES)
-                    .appendQueryParameter("details", MS_CV_API_DEFAULT_DETAILS)
-                    .appendQueryParameter("language", MS_CV_API_DEFAULT_LANGUAGE)
+                    .appendQueryParameter("mode", MS_CV_API_DEFAULT_VISUAL_FEATURES)
                     .build()
                     .toString();
-                    System.out.println(requestURL);
             Log.d(TAG, "Using URL: " + requestURL);
 
             /*
@@ -133,8 +122,11 @@ class ProcessImageTask {
                     return stream.toByteArray();
                 }
             };
+            System.out.println("StringRequest: " + stringRequest);
             requestQueue.add(stringRequest);
-            /* doInBackground can't return void, otherwise we would. */
+            System.out.println(requestQueue);
+
+        /* doInBackground can't return void, otherwise we would. */
             return 0;
         }
 
