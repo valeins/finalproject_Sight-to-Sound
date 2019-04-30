@@ -9,21 +9,43 @@ import android.widget.ProgressBar;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URI;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Cache;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.google.gson.JsonObject;
+
+/*import javax.net.ssl.HttpsURLConnection;
+import java.net.URI;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+//import org.apache.http.client.utils.URIBuilder;
+//import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils; */
 
 class ProcessImageTask {
     public static class ProcessImage extends AsyncTask<Bitmap, Integer, Integer> {
@@ -32,22 +54,22 @@ class ProcessImageTask {
 
         /** Url for the MS cognitive services API. */
         private static final String MS_CV_API_URL =
-                "https://westcentralus.api.cognitive.microsoft.com/vision/v2.0/recognizeText";
+                "https://westcentralus.api.cognitive.microsoft.com/vision/v1.0/describe";
 
-        /** Default visual features to request. You may need to change this value. */
-        private static final String MS_CV_API_DEFAULT_VISUAL_FEATURES = "Handwritten"; // to be changed to "handwritten"!!!
+        /** Maximum number of Descriptions */
+        private static final String MAX_CANDIDATES = "3";
 
         /** Subscription key. */
         private static final String SUBSCRIPTION_KEY = BuildConfig.API_KEY;
+
+        /** Default quality level for bitmap compression. */
+        private static final int DEFAULT_COMPRESSION_QUALITY_LEVEL = 100;
 
         /** Reference to the calling activity so that we can return results. */
         private WeakReference<MainActivity> activityReference;
 
         /** Request queue to use for our API call. */
         private RequestQueue requestQueue;
-
-        /** Default quality level for bitmap compression. */
-        private static final int DEFAULT_COMPRESSION_QUALITY_LEVEL = 100;
 
         /**
          * Create a new talk to upload data and return the API results.
@@ -72,8 +94,8 @@ class ProcessImageTask {
             if (activity == null || activity.isFinishing()) {
                 return;
             }
-      /*      ProgressBar progressBar = activity.findViewById(R.id.progressBar);
-            progressBar.setVisibility(View.VISIBLE);*/
+            ProgressBar progressBar = activity.findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         /**
@@ -90,10 +112,11 @@ class ProcessImageTask {
             final ByteArrayOutputStream stream = new ByteArrayOutputStream();
             currentBitmap[0].compress(Bitmap.CompressFormat.PNG,
                     DEFAULT_COMPRESSION_QUALITY_LEVEL, stream);
+
             // Prepare our API request
             String requestURL = Uri.parse(MS_CV_API_URL)
                     .buildUpon()
-                    .appendQueryParameter("mode", MS_CV_API_DEFAULT_VISUAL_FEATURES)
+                    .appendQueryParameter("maxCandidates", MAX_CANDIDATES)
                     .build()
                     .toString();
             Log.d(TAG, "Using URL: " + requestURL);
@@ -122,11 +145,9 @@ class ProcessImageTask {
                     return stream.toByteArray();
                 }
             };
-            System.out.println("StringRequest: " + stringRequest);
             requestQueue.add(stringRequest);
-            System.out.println(requestQueue);
 
-        /* doInBackground can't return void, otherwise we would. */
+            /* doInBackground can't return void, otherwise we would. */
             return 0;
         }
 
@@ -135,15 +156,14 @@ class ProcessImageTask {
          * @param response The JSON text of the response.
          */
         void handleApiResponse(final String response) {
-            Log.d(TAG, "success");
             // On success, clear the progress bar and call finishProcessImage
             Log.d(TAG, "Response: " + response);
             MainActivity activity = activityReference.get();
-            if (activity == null || activity.isFinishing()) {
+          /*  if (activity == null || activity.isFinishing()) {
                 return;
-            }
-         /*   ProgressBar progressBar = activity.findViewById(R.id.progressBar);
-            progressBar.setVisibility(View.INVISIBLE);*/
+            }*/
+            ProgressBar progressBar = activity.findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.INVISIBLE);
             activity.finishProcessImage(response);
         }
 
@@ -152,7 +172,6 @@ class ProcessImageTask {
          * @param error The error that caused the request to fail.
          */
         void handleApiError(final VolleyError error) {
-            Log.d(TAG, "failure");
             // On failure just clear the progress bar
             Log.w(TAG, "Error: " + error.toString());
             NetworkResponse networkResponse = error.networkResponse;
@@ -165,8 +184,9 @@ class ProcessImageTask {
             if (activity == null || activity.isFinishing()) {
                 return;
             }
-         /*   ProgressBar progressBar = activity.findViewById(R.id.progressBar);
-            progressBar.setVisibility(View.INVISIBLE);*/
+            ProgressBar progressBar = activity.findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.INVISIBLE);
         }
     }
 }
+

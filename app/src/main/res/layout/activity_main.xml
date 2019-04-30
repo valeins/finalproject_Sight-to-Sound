@@ -7,6 +7,44 @@
     android:background="@android:color/holo_blue_light"
     tools:context=".MainActivity">
 
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/main_foto"
+            android:layout_width="303dp"
+            android:layout_height="296dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="4dp"
+            android:background="@android:drawable/screen_background_light_transparent"
+            app:layout_constraintBottom_toTopOf="@+id/main_upload"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/main_text_2"
+            app:layout_constraintVertical_bias="0.84"
+            app:srcCompat="@android:drawable/menuitem_background" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="28dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="127dp"
+            android:layout_marginTop="130dp"
+            android:visibility="gone" />
+    </FrameLayout>
+
     <TextView
         android:id="@+id/main_text_1"
         android:layout_width="wrap_content"
@@ -40,24 +78,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_text_1"
         app:layout_constraintVertical_bias="0.0" />
-
-    <ImageView
-        android:id="@+id/main_foto"
-        android:layout_width="303dp"
-        android:layout_height="296dp"
-        android:layout_marginStart="3dp"
-        android:layout_marginLeft="3dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginBottom="4dp"
-        android:background="@android:drawable/screen_background_light_transparent"
-        app:layout_constraintBottom_toTopOf="@+id/main_upload"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_text_2"
-        app:layout_constraintVertical_bias="0.84"
-        app:srcCompat="@android:drawable/menuitem_background" />
 
     <Button
         android:id="@+id/main_confirm"

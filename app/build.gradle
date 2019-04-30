@@ -19,6 +19,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    //    useLibrary 'org.apache.http.legacy'
     }
     buildTypes {
         release {
@@ -27,13 +28,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            buildConfigField "String", "API_KEY", "\"" + getApiKey() +"\""
+            buildConfigField "String", "API_KEY", "\"" + getApiKey() + "\""
         }
     }
     compileOptions {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
     }
+  //  useLibrary 'org.apache.http.legacy'
 }
 
 dependencies {
@@ -43,6 +45,9 @@ dependencies {
     implementation group: 'commons-io', name: 'commons-io', version: '2.0.1'
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'com.google.code.gson:gson:2.8.2'
+   // implementation 'org.apache.httpcomponents:httpclient:4.5'
+  //  implementation 'clj-pdf:clj-pdf:2.3.4'
+   // implementation 'json-to-pdf:json-to-pdf:0.8.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

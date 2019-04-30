@@ -8,6 +8,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonParser;
+
+import java.time.chrono.MinguoChronology;
+
 import CS12.finalproject.text_to_txt.MainActivity;
 
 public class TextActivity extends AppCompatActivity {
@@ -17,8 +20,15 @@ public class TextActivity extends AppCompatActivity {
         setContentView(R.layout.activity_text);
 
         TextView textToConvert = findViewById(R.id.text_text);
-        System.out.println(MainActivity.getResultText());
-       // textToConvert.setText(MainActivity.getResultText().get(0));
+        String showText = new String();
+        if (MainActivity.getResultText().size() == 1) {
+            textToConvert.setText(MainActivity.getResultText().get(0) + ".");
+        } else {
+            for (int i = 0; i < MainActivity.getResultText().size(); i++) {
+                showText = showText + MainActivity.getResultText().get(i) + "; ";
+            }
+            textToConvert.setText(showText);
+        }
 
         /* Convert button */
         //findViewById(R.id.text_convert).setOnClickListener();

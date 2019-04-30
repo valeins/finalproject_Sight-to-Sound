@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
@@ -75,9 +76,6 @@ public class MainActivity extends AppCompatActivity {
         /* Confirm button */
         findViewById(R.id.main_confirm).setOnClickListener(v -> {
             startProcessImage();
-            Intent setupIntent = new Intent(this, TextActivity.class);
-            startActivity(setupIntent);
-            finish();
         });
     }
 
@@ -283,68 +281,16 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("Result: " + jsonResult);
         JsonParser parser = new JsonParser();
         JsonObject result = parser.parse(jsonResult).getAsJsonObject();
-        Log.d(TAG, "finishProcessing");
-        JsonArray lines = result.get("recognitionResult").getAsJsonArray();
-        for (int i = 0; i < lines.size(); i++) {
-            String line = lines.get(i).getAsJsonObject().get("text").getAsString();
-            resultText.add(line);
+        JsonArray descriptions = result.get("description").getAsJsonObject()
+                .get("captions").getAsJsonArray();
+        for(int i = 0; i < descriptions.size(); i++) {
+            String description = descriptions.get(i).getAsJsonObject().get("text").getAsString();
+            resultText.add(description);
         }
         Log.d(TAG, "finished processing");
-
-
-        /*
-         * Pretty-print the JSON into the bottom text-view to help with debugging.
-         */
-     /*   TextView textView = findViewById(R.id.jsonResult);
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        JsonParser jsonParser = new JsonParser();
-        JsonElement jsonElement = jsonParser.parse(jsonResult);
-        String prettyJsonString = gson.toJson(jsonElement);
-        textView.setText(prettyJsonString); */
-
-
-        /*
-         * Create a string describing the image type, width and height.
-         */
-     /* int width = RecognizePhoto.getWidth(jsonResult);
-        int height = RecognizePhoto.getHeight(jsonResult);
-        String format = RecognizePhoto.getFormat(jsonResult);
-        assert format != null;
-        format = format.toUpperCase();
-        String description = String.format(Locale.US, "%s (%d x %d)", format, width, height);
-*/
-        /*
-         * Update the UI to display the string.
-         */
-    /*    TextView formatView = findViewById(R.id.descriptionView);
-        formatView.setText(description);
-        formatView.setVisibility(View.VISIBLE); */
-
-        /*
-         * Add code here to show the caption, show or hide the dog and cat icons,
-         * and deal with Rick.
-         */
-      /*  textView.setText(RecognizePhoto.getCaption(prettyJsonString));
-
-        if (RecognizePhoto.isACat(jsonResult, RECOGNITION_THRESHOLD)) {
-            ImageView imageCat = findViewById(R.id.xyz);
-            imageCat.setVisibility(View.VISIBLE);
-        }  else {
-            ImageView imageCat = findViewById(R.id.xyz);
-            imageCat.setVisibility(View.GONE);
-        }
-        if (RecognizePhoto.isADog(jsonResult, RECOGNITION_THRESHOLD)) {
-            ImageView imageDog = findViewById(R.id.chuchu);
-            imageDog.setVisibility(View.VISIBLE);
-        } else {
-            ImageView imageDog = findViewById(R.id.chuchu);
-            imageDog.setVisibility(View.GONE);
-        }
-        if (RecognizePhoto.isRick(jsonResult)) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=epyRUp0BhrA"));
-            startActivity(intent);
-        } */
-
+        Intent setupIntent = new Intent(this, TextActivity.class);
+        startActivity(setupIntent);
+        finish();
     }
     public static List<String> getResultText() {
         return resultText;
