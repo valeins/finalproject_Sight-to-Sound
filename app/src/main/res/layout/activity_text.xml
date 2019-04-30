@@ -4,17 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_light">
+    android:background="@color/colorPrimary">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Adjust the text below. When you're done, press &quot;Convert to pdf&quot;. "
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:text='Click on the "Speak" button and listen to the description of the image. '
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:fontFamily="@font/acme"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="8dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/text_back"
@@ -39,7 +40,7 @@
         android:layout_marginEnd="48dp"
         android:layout_marginRight="48dp"
         android:layout_marginBottom="97dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@android:color/holo_red_dark"
         android:text="Speak"
         android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Colored"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -49,17 +50,17 @@
 
     <EditText
         android:id="@+id/text_text"
-        android:layout_width="wrap_content"
-        android:layout_height="74dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="100dp"
+        android:layout_width="251dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="76dp"
         android:ems="10"
-        android:inputType="textMultiLine|text"
+        android:inputType="none"
         android:singleLine="false"
+        android:textColorLink="@android:color/background_dark"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </android.support.constraint.ConstraintLayout>

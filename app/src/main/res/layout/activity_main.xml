@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_light"
+    android:background="@color/colorPrimary"
     tools:context=".MainActivity">
 
     <FrameLayout
@@ -35,14 +35,6 @@
             app:layout_constraintVertical_bias="0.84"
             app:srcCompat="@android:drawable/menuitem_background" />
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="28dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="127dp"
-            android:layout_marginTop="130dp"
-            android:visibility="gone" />
     </FrameLayout>
 
     <TextView
@@ -50,14 +42,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="Welcome to the text-to-.txt - App! "
+        android:text="Welcome to the Sight-to-Sound App! "
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textSize="24sp"
         app:fontFamily="@font/acme"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.042" />
+        app:layout_constraintVertical_bias="0.015" />
 
     <TextView
         android:id="@+id/main_text_2"
@@ -71,6 +65,7 @@
         android:layout_marginBottom="569dp"
         android:text="Upload your pictures or take a picture by clicking the buttons below."
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:textSize="18sp"
         app:fontFamily="@font/acme"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -84,7 +79,7 @@
         android:layout_width="88dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@android:color/holo_red_dark"
         android:text="Confirm"
         android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Colored"
         app:layout_constraintBottom_toBottomOf="parent"

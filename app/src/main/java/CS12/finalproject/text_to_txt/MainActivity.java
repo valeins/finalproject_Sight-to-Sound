@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static List<String> resultText = new ArrayList<>();
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestQueue = Volley.newRequestQueue(this);
@@ -69,16 +72,12 @@ public class MainActivity extends AppCompatActivity {
             startTakePhoto();
         });
         /* Confirm button */
-        findViewById(R.id.main_confirm).setOnClickListener(v -> {
-            startProcessImage();
-        });
+        findViewById(R.id.main_confirm).setOnClickListener(v -> startProcessImage());
     }
 
     @Override
     public void onActivityResult(final int requestCode, final int resultCode,
                                  final Intent resultData) {
-
-        // If something went wrong we simply log a warning and return
         if (resultCode != Activity.RESULT_OK) {
             Log.w(TAG, "onActivityResult with code " + requestCode + " failed");
             if (requestCode == IMAGE_CAPTURE_REQUEST_CODE) {
@@ -87,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        // Otherwise we get a link to the photo either from the file browser or the camera,
         Uri currentPhotoURI;
         if (requestCode == READ_REQUEST_CODE) {
             currentPhotoURI = resultData.getData();
@@ -101,13 +99,12 @@ public class MainActivity extends AppCompatActivity {
             Log.w(TAG, "Unhandled activityResult with code " + requestCode);
             return;
         }
-
-        // Now load the photo into the view
         Log.d(TAG, "Photo selection produced URI " + currentPhotoURI);
         loadPhoto(currentPhotoURI);
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void startOpenFile() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -128,19 +125,16 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        // Set up an intent to launch the camera app and have it take a photo for us
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         currentPhotoFile = getSaveFilename();
         if (takePictureIntent.resolveActivity(getPackageManager()) == null
                 || currentPhotoFile == null) {
-            // Alert the user if there was a problem taking the photo
             Toast.makeText(getApplicationContext(), "Problem taking photo",
                     Toast.LENGTH_LONG).show();
             Log.w(TAG, "Problem taking photo");
             return;
         }
 
-        // Configure and launch the intent
         Uri photoURI = FileProvider.getUriForFile(this,
                 "edu.illinois.cs.cs125.spring2019.finalproject.fileprovider", currentPhotoFile);
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
@@ -174,11 +168,6 @@ public class MainActivity extends AppCompatActivity {
     private Bitmap currentBitmap;
 
     private void loadPhoto(final Uri currentPhotoURI) {
-       // enableOrDisableButtons(false);
-        /* final ImageButton rotateLeft = findViewById(R.id.rotateLeft);
-        rotateLeft.setClickable(false);
-        rotateLeft.setEnabled(false);*/
-
         if (currentPhotoURI == null) {
             Toast.makeText(getApplicationContext(), "No image selected",
                     Toast.LENGTH_LONG).show();
@@ -212,9 +201,6 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        /*
-         * Resize the image appropriately for the display.
-         */
         final ImageView photoView = findViewById(R.id.main_foto);
         int targetWidth = photoView.getWidth();
         int targetHeight = photoView.getHeight();
@@ -231,7 +217,6 @@ public class MainActivity extends AppCompatActivity {
         modifyOptions.inJustDecodeBounds = false;
         modifyOptions.inSampleSize = scaleFactor;
 
-        // Actually draw the image
         updateCurrentBitmap(BitmapFactory.decodeByteArray(imageData,
                 0, imageData.length, modifyOptions));
     }
@@ -250,10 +235,6 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        /*
-         * Launch our background task which actually makes the request. It will call
-         * finishProcessImage below with the JSON string when it finishes.
-         */
         new ProcessImageTask.ProcessImage(MainActivity.this, requestQueue)
                 .execute(currentBitmap);
     }
