@@ -278,6 +278,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void finishProcessImage(final String jsonResult) {
+        resultText.clear();
         System.out.println("Result: " + jsonResult);
         JsonParser parser = new JsonParser();
         JsonObject result = parser.parse(jsonResult).getAsJsonObject();

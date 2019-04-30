@@ -57,7 +57,7 @@ class ProcessImageTask {
                 "https://westcentralus.api.cognitive.microsoft.com/vision/v1.0/describe";
 
         /** Maximum number of Descriptions */
-        private static final String MAX_CANDIDATES = "3";
+        private static final String MAX_CANDIDATES = "1";
 
         /** Subscription key. */
         private static final String SUBSCRIPTION_KEY = BuildConfig.API_KEY;
