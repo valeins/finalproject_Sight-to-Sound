@@ -21,8 +21,8 @@
         android:id="@+id/text_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
         android:layout_marginTop="400dp"
         android:layout_marginBottom="97dp"
         android:text="Back"
@@ -34,8 +34,6 @@
         android:id="@+id/text_speak"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="92dp"
-        android:layout_marginLeft="92dp"
         android:layout_marginTop="400dp"
         android:layout_marginEnd="48dp"
         android:layout_marginRight="48dp"
@@ -45,7 +43,6 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Colored"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/text_back"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
