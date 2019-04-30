@@ -11,19 +11,14 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -238,28 +233,14 @@ public class MainActivity extends AppCompatActivity {
 
         // Actually draw the image
         updateCurrentBitmap(BitmapFactory.decodeByteArray(imageData,
-                0, imageData.length, modifyOptions), true);
+                0, imageData.length, modifyOptions));
     }
 
-    void updateCurrentBitmap(final Bitmap setCurrentBitmap, final boolean resetInfo) {
+    void updateCurrentBitmap(final Bitmap setCurrentBitmap) {
         currentBitmap = setCurrentBitmap;
         ImageView photoView = findViewById(R.id.main_foto);
         photoView.setImageBitmap(currentBitmap);
      //   enableOrDisableButtons(true);
-
-        // Reset the displayed fields to default values. For you to finish!
-
-    /*    if (resetInfo) {
-            photoView.setImageDrawable(null);
-            TextView textView = findViewById(R.id.jsonResult);
-            textView.setText(null);
-            ImageView imageCat = findViewById(R.id.xyz);
-            imageCat.setVisibility(View.GONE);
-            ImageView imageDog = findViewById(R.id.chuchu);
-            imageDog.setVisibility(View.GONE);
-            TextView descriptionView = findViewById(R.id.descriptionView);
-            descriptionView.setVisibility(View.GONE);
-        }*/
     }
     private void startProcessImage() {
         if (currentBitmap == null) {

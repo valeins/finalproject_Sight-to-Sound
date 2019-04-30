@@ -9,15 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.gson.JsonParser;
-
-import org.w3c.dom.Text;
-
-import java.time.chrono.MinguoChronology;
 import java.util.Locale;
-
-import CS12.finalproject.text_to_txt.MainActivity;
 
 public class TextActivity extends AppCompatActivity {
 
@@ -32,7 +24,7 @@ public class TextActivity extends AppCompatActivity {
         setContentView(R.layout.activity_text);
 
         TextView textToSpeak = findViewById(R.id.text_text);
-        String showText = new String();
+        String showText = "";
         if (MainActivity.getResultText().size() == 1) {
             textToSpeak.setText(MainActivity.getResultText().get(0) + ".");
         } else {
